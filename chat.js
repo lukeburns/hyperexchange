@@ -15,7 +15,7 @@ local.createReadStream({ live: true }).on('data', function (data) {
 })
 
 let keys = []
-let ch = exchange(local)
+let xc = exchange(local)
 local.on('connection', connect)
 
 function connect (key) {
@@ -26,7 +26,7 @@ function connect (key) {
       console.log(key.slice(0, 5)+':', data.toString().trim())
     })
     feed.on('connection', connect)
-    ch.connect(feed)
+    xc.connect(feed)
     keys.push(key)
   }
 }

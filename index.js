@@ -6,6 +6,7 @@ class Exchange extends events.EventEmitter {
     super()
     this.feed = feed
     this.feed.on('ready', _connect.bind(this, this.feed, opts))
+    this.swarms = []
   }
 
   connect (remote, opts={}) {
@@ -27,6 +28,7 @@ function _connect (feed, opts) {
   let connections = []
 
   let swarm = hyperdiscovery(feed, opts)
+  this.swarms.push(swarm)
   swarm.on('connection', function (socket, info) {
     const key = socket.remoteId.toString('hex')
     if (key !== feed.id && connections.indexOf(key) < 0) {
@@ -35,7 +37,10 @@ function _connect (feed, opts) {
     }
   })
 
+  let self = this
   feed.on('close', function () {
+    let i = self.swarms.indexOf(swarm)
+    self.swarms.splice(i, 1)
     swarm.leave(feed.discoveryKey)
     swarm.destroy(function () {
       feed.emit('closed')

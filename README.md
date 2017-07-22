@@ -1,6 +1,6 @@
 # hyperexchange
 
-exchange hypercore keys with peers
+exchange keys with hyperdiscovery peers
 
 ## basic api
 
@@ -8,9 +8,9 @@ exchange hypercore keys with peers
 let local = hypercore()
 let listener = hypercore(remote_key)
 
-let ch = exchange(local) // my feed
-ch.connect(listener) // peer feed
+let xc = exchange(local) // my feed
+xc.connect(listener) // peer feed
 
-local.on('connection', (key) => console.log(key))
-listener.on('connection', (key) => console.log(key))
+local.on('connection', key => console.log(key))
+listener.on('connection', key => console.log(key))
 ```

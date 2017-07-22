@@ -4,6 +4,10 @@ const ram = require('random-access-memory')
 
 let remote = hypercore(ram)
 let rxc = exchange(remote)
+
+let local = hypercore(ram)
+let lxc = exchange(local)
+
 remote.on('connection', function (key) {
   console.log(shorten(remote.key), '<-', shorten(key))
   let listener = hypercore(ram, key)
@@ -13,9 +17,10 @@ remote.on('connection', function (key) {
   })
 })
 remote.on('ready', function () {
-  console.log('remote key:', shorten(remote.key))
-  let local = hypercore(ram)
-  let lxc = exchange(local)
+  console.log('remote key', rxc.key.toString('hex'))
+  console.log('local key', lxc.key.toString('hex'))
+  console.log()
+
   local.on('connection', function (key) {
     console.log(shorten(local.key), '<-', shorten(key))
   })

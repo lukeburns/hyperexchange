@@ -4,6 +4,7 @@
   "description": "exchange hypercore keys with peers",
   "main": "index.js",
   "dependencies": {
+    "discovery-swarm": "^4.4.0",
     "hyperdiscovery": "^6.0.4"
   },
   "devDependencies": {
